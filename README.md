@@ -1,4 +1,4 @@
-# passbolt_custom
+# Passbolt
 A custom containerized packaging of the passbolt password manager.
 
 ## Installation
