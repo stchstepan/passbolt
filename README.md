@@ -77,6 +77,6 @@ On first startup, you must create an administrator account, to do this:
 
 ## Support
 
-- Check connection to the mail server: `/var/www/passbolt/bin/cake passbolt send_test_email --recipient=your_mail@sigma-it.ru`.
+- Check connection to the mail server: `/var/www/passbolt/bin/cake passbolt send_test_email --recipient=your_mail@your.org`.
 - Connecting to the database (you can often find logs in the database that are obviously nowhere to be found): `mysql -hdb -P<your_port> -upassbolt -p<your_password>`.
 - You can use any other version of Passbolt by replacing the passbolt directory.
