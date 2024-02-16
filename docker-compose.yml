@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MYSQL_TCP_PORT: "${MYSQL_TCP_PORT}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: "${PASSBOLT_DATABASE}"
+      MYSQL_USER: "${PASSBOLT_ADMIN_USERNAME}"
+      MYSQL_PASSWORD: "${PASSBOLT_ADMIN_PASSWORD}"
+    ports:
+      - "${MYSQL_IP}"
+    volumes:
+      - database_volume:/var/lib/mysql
+    networks:
+      - passbolt_network
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -h db -u${PASSBOLT_ADMIN_USERNAME} -p${PASSBOLT_ADMIN_PASSWORD} -e 'SELECT 1;' || exit 1"]
+      retries: 3
+      interval: 5s
+
+  app:
+    image: your_passbolt:latest
+    restart: unless-stopped
+    environment:
+      DB_PASSWORD: "${PASSBOLT_ADMIN_PASSWORD}"
+    ports:
+      - "${APP_IP}"
+    volumes:
+      - config_volume:/var/www/passbolt/config
+      - ./ssl/nginx.conf:/etc/nginx/sites-enabled/passbolt.conf
+      - ./ssl/certs:/ssl
+      - ./scripts/setup.sh:/setup.sh
+      - ./scripts/generate_key.sh:/generate_key.sh
+    command: ["bash", "/setup.sh"]
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - passbolt_network
+
+volumes:
+  database_volume:
+  config_volume:
+
+networks:
+  passbolt_network:
+    driver: bridge
