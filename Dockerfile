@@ -3,7 +3,7 @@ FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-    && apt-get -y install nano wget cron git zip unzip php-zip curl ca-certificates net-tools default-mysql-client composer php8.2-cli php8.2-intl php8.2-mbstring php8.2-simplexml php8.2-pdo php8.2-pdo-mysql php8.2-xsl php8.2-phar php8.2-posix php8.2-xml php8.2-ctype php8.2-curl php8.2-gd php-gnupg gnupg php8.2-fpm \
+    && apt-get -y install wget cron git zip unzip php-zip curl ca-certificates net-tools default-mysql-client composer php8.2-cli php8.2-intl php8.2-mbstring php8.2-simplexml php8.2-pdo php8.2-pdo-mysql php8.2-xsl php8.2-phar php8.2-posix php8.2-xml php8.2-ctype php8.2-curl php8.2-gd php-gnupg gnupg php8.2-fpm \
     && apt-get -y install --no-install-recommends nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
